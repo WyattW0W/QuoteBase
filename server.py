@@ -20,14 +20,19 @@ def add_quote_template():
 
 @app.route("/add-quote", methods=["POST"])
 def add_quote():
-    new_quote = request.form.get("quote")
-    if new_quote:
-        quotes.append(new_quote)
+    new_quote = request.get_json().get("text")
+    new_author = request.get_json().get("author")
+    if new_quote and new_author:
+        quotes.append({"text": new_quote, "author": new_author})
         with open("quotes.json", "w") as f:
             json.dump(quotes, f)
-        return redirect(url_for("get_quotes"))
+        return jsonify({"message": "Quote added successfully!"}), 201
     else:
         return "Quote cannot be empty", 400
+
+@app.route("/cat-and-mouse", methods=["GET"])
+def cat_and_mouse():
+    return render_template("cat_and_mouse.html"), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
