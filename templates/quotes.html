@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>QuoteBase - Quotes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A simple quote database web application.">
+        <meta name="keywords" content="quotes, database, web application">
+        <meta name="author" content="Wyatt Whitaker">
+    </head>
+    <body>
+        <h1>QuoteBase - Quotes</h1>
+        <p>Here are some quotes from our database:</p>
+        <ul id="quote_list"></ul>
+        <a href="/">Back to Home</a>
+    </body>
+    <script>
+        // Get the quote list element and fill it with quotes from the database sent by the server
+        const quoteList = document.getElementById('quote_list');
+
+        const quotes = {{ quotes | tojson }};
+        console.log(quotes); // Log the quotes to the console for debugging
+        
+        // Example of how to populate the list (replace with actual data from the server)
+        quotes.forEach(quote => {
+            const li = document.createElement('li');
+            li.textContent = quote.text + ' - ' + quote.author;
+            quoteList.appendChild(li);
+        });
+    </script>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>QuoteBase - Quotes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A simple quote database web application.">
+        <meta name="keywords" content="quotes, database, web application">
+        <meta name="author" content="Wyatt Whitaker">
+    </head>
+    <body>
+        <h1>QuoteBase - Add Quote</h1>
+        <form>
+            <label for="quote_text">Quote Text:</label>
+            <textarea id="quote_text" name="quote_text" required></textarea>
+            <label for="quote_author">Author:</label>
+            <input type="text" id="quote_author" name="quote_author" required>
+            <button type="submit">Add Quote</button>
+        </form>
+        <a href="/">Back to Home</a>
+    </body>
+    <script>
+        // Handle form submission
+        const form = document.querySelector('form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            const quoteText = document.getElementById('quote_text').value;
+            const quoteAuthor = document.getElementById('quote_author').value;
+
+            // Send the quote data to the server
+            try {
+                const response = await fetch('/add-quote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: quoteText, author: quoteAuthor })
+                });
+
+                if (response.ok) {
+                    alert('Quote added successfully!');
+                    form.reset(); // Reset the form fields
+                } else {
+                    alert('Failed to add quote. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while adding the quote.');
+            }
+        });
+    </script>
+</html>
