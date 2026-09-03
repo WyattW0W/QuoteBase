@@ -35,4 +35,4 @@ def cat_and_mouse():
     return render_template("cat_and_mouse.html"), 200
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
