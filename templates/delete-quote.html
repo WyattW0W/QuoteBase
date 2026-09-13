@@ -24,6 +24,7 @@
     <script>
         // Add any necessary JavaScript here
         // add an event listener to the delete buttons to confirm deletion and send a POST request to the server
+        // edit this so that the request sends a json object with the quote text and author to the server
         const deleteButtons = document.querySelectorAll('button[type="submit"]');
         deleteButtons.forEach(button => {
             button.addEventListener('click', (e) => {
@@ -35,7 +36,10 @@
                     const formData = new FormData(form);
                     fetch('/delete-quote', {
                         method: 'POST',
-                        body: formData
+                        body: formData,
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
                     }).then(response => {
                         if (response.ok) {
                             // Remove the quote from the list
