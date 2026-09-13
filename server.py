@@ -34,5 +34,21 @@ def add_quote():
 def cat_and_mouse():
     return render_template("cat_and_mouse.html"), 200
 
+@app.route("/delete-quote-template", methods=["GET"])
+def delete_quote_template():
+    return render_template("delete-quote.html", quotes=quotes), 200
+
+@app.route("/delete-quote", methods=["POST"])
+def delete_quote():
+    quote_to_delete = request.get_json().get("text")
+    if quote_to_delete:
+        global quotes
+        quotes = [quote for quote in quotes if quote["text"] != quote_to_delete]
+        with open("quotes.json", "w") as f:
+            json.dump(quotes, f)
+        return jsonify({"message": "Quote deleted successfully!"}), 200
+    else:
+        return "Quote text cannot be empty", 400
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
