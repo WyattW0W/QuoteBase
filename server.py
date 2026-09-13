@@ -40,15 +40,28 @@ def delete_quote_template():
 
 @app.route("/delete-quote", methods=["POST"])
 def delete_quote():
-    quote_to_delete = request.get_json().get("text")
-    if quote_to_delete:
-        global quotes
-        quotes = [quote for quote in quotes if quote["text"] != quote_to_delete]
-        with open("quotes.json", "w") as f:
-            json.dump(quotes, f)
-        return jsonify({"message": "Quote deleted successfully!"}), 200
-    else:
-        return "Quote text cannot be empty", 400
+    global quotes
+
+    quote_data = request.get_json(silent=True) or {}
+    quote_to_delete = quote_data.get("text")
+    author_to_delete = quote_data.get("author")
+
+    if not quote_to_delete or not author_to_delete:
+        return jsonify({"error": "Quote text and author cannot be empty"}), 400
+
+    remaining_quotes = [
+        quote for quote in quotes
+        if quote.get("text") != quote_to_delete
+        or quote.get("author") != author_to_delete
+    ]
+
+    if len(remaining_quotes) == len(quotes):
+        return jsonify({"error": "Quote not found"}), 404
+
+    quotes = remaining_quotes
+    with open("quotes.json", "w") as f:
+        json.dump(quotes, f)
+    return jsonify({"message": "Quote deleted successfully!"}), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

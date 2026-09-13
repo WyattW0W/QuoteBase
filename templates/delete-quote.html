@@ -1,12 +1,63 @@
 <!DOCTYPE HTML>
 <html lang="en">
     <head>
+        <title>QuoteBase - Delete Quotes</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Delete Quote</title>
+        <meta name="description" content="A simple quote database web application.">
+        <meta name="keywords" content="quotes, database, web application">
+        <meta name="author" content="Wyatt Whitaker">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background-color: #ebca84;
+                border:#1c114d 1px solid;
+                border-radius: 25px;
+                padding: 20px;
+                width: 50%;
+            }
+            h1 {
+                color: #1c114d;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+                max-width: 400px;
+            }
+            label {
+                margin-top: 10px;
+            }
+            textarea, input {
+                margin-top: 5px;
+                padding: 8px;
+                font-size: 14px;
+            }
+            button {
+                margin-top: 15px;
+                padding: 10px;
+                background-color: #1c114d;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #3a2a7a;
+            }
+            a {
+                display: block;
+                margin-top: 20px;
+                text-decoration: none;
+                color: #007BFF;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+        </style>
     </head>
     <body>
         <h1>Delete Quote</h1>
+        <p><a href="/">Back to home</a></p>
         <p>Select a quote to delete:</p>
         <ul>
             {% for quote in quotes %}
@@ -40,7 +91,8 @@
                         method: 'POST',
                         body: JSON.stringify(quote),
                         headers: {
-                            "Content-Type": "application/json"
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
                         }
                     }).then(response => {
                         if (response.ok) {
