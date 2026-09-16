@@ -78,7 +78,7 @@
 
             // Send the quote data to the server
             try {
-                const response = await fetch('/add-quote', {
+                const response = await fetch('/quotes/add-quote', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -88,7 +88,7 @@
 
                 if (response.ok) {
                     alert('Quote added successfully!');
-                    form.reset(); // Reset the form fields
+                    location.reload(); // Reset the page to show the new quote
                 } else {
                     alert('Failed to add quote. Please try again.');
                 }

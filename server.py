@@ -14,7 +14,7 @@ def index():
 def get_quotes():
     return render_template("quotes.html", quotes=quotes), 200
 
-@app.route("/add-quote", methods=["POST"])
+@app.route("/quotes/add-quote", methods=["POST"])
 def add_quote():
     new_quote = request.get_json().get("text")
     new_author = request.get_json().get("author")
