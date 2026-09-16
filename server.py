@@ -60,7 +60,8 @@ def delete_quote():
         json.dump(quotes, f)
     return jsonify({"message": "Quote deleted successfully!"}), 200
 
-app = Flask(__name__)
+print("1. Script loaded successfully.")
 
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=5000)
+    print("2. Starting the server on port 8000...")
+    serve(app, host="0.0.0.0", port=8000)
