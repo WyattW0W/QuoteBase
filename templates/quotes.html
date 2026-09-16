@@ -46,6 +46,13 @@
         <p>Here are some quotes from our database:</p>
         <ul id="quote_list"></ul>
         <a href="/">Back to Home</a>
+        <form>
+            <label for="quote_text">Quote Text:</label>
+            <textarea id="quote_text" name="quote_text" required></textarea>
+            <label for="quote_author">Author:</label>
+            <input type="text" id="quote_author" name="quote_author" required>
+            <button type="submit">Add Quote</button>
+        </form>
     </body>
     <script>
         // Get the quote list element and fill it with quotes from the database sent by the server
@@ -59,6 +66,36 @@
             const li = document.createElement('li');
             li.innerHTML = quote.text + ' <br>- ' + quote.author;
             quoteList.appendChild(li);
+        });
+
+        // Handle form submission
+        const form = document.querySelector('form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            const quoteText = document.getElementById('quote_text').value;
+            const quoteAuthor = document.getElementById('quote_author').value;
+
+            // Send the quote data to the server
+            try {
+                const response = await fetch('/add-quote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: quoteText, author: quoteAuthor })
+                });
+
+                if (response.ok) {
+                    alert('Quote added successfully!');
+                    form.reset(); // Reset the form fields
+                } else {
+                    alert('Failed to add quote. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while adding the quote.');
+            }
         });
     </script>
 </html>

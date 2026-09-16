@@ -14,10 +14,6 @@ def index():
 def get_quotes():
     return render_template("quotes.html", quotes=quotes), 200
 
-@app.route("/add-quote-template", methods=["GET"])
-def add_quote_template():
-    return render_template("add_quote.html"), 200
-
 @app.route("/add-quote", methods=["POST"])
 def add_quote():
     new_quote = request.get_json().get("text")
