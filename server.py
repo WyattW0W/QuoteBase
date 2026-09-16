@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, redirect, url_for, render_template
 import json
+from waitress import serve
 
 with open("quotes.json", "r") as f:
     quotes = json.load(f)
@@ -59,5 +60,7 @@ def delete_quote():
         json.dump(quotes, f)
     return jsonify({"message": "Quote deleted successfully!"}), 200
 
+app = Flask(__name__)
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    serve(app, host="0.0.0.0", port=5000)
