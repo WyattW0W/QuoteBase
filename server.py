@@ -34,7 +34,7 @@ def cat_and_mouse():
 def delete_quote_template():
     return render_template("delete-quote.html", quotes=quotes), 200
 
-@app.route("/delete-quote", methods=["POST"])
+@app.route("/quotes/delete-quote", methods=["POST"])
 def delete_quote():
     global quotes
 
