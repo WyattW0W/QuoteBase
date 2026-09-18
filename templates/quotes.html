@@ -50,11 +50,11 @@
             {% for quote in quotes %}
             <li>
                 "{{ quote.text }}" - {{ quote.author }}
-                <form action="/delete-quote" method="POST" style="display:inline;">
+                <form action="/quotes/delete-quote" method="POST" style="display:inline;">
                     <input type="hidden" name="text" value="{{ quote.text }}">
                     <input type="hidden" name="author" value="{{ quote.author }}">
                     <br>
-                    <button type="submit">Delete</button>
+                    <button type="submit" class="delete">Delete</button>
                     <br>
                 </form>
                 <form action="/quotes/edit-quote-template" method="GET" style="display:inline;">
@@ -76,7 +76,7 @@
             <label for="quote_author">Author:</label>
             <input type="text" id="quote_author" name="quote_author" required>
             <br>
-            <button type="submit" class="delete">Add Quote</button>
+            <button type="submit">Add Quote</button>
         </form>
 
     </body>
