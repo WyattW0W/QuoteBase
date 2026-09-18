@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Edit Quote</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="A simple quote database web application.">
+        <meta name="keywords" content="quotes, database, web application">
+        <meta name="author" content="Wyatt Whitaker">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background-color: #ebca84;
+                border:#1c114d 1px solid;
+                border-radius: 25px;
+                padding: 20px;
+                width: 50%;
+            }
+            h1 {
+                color: #1c114d;
+            }
+            form {
+                margin-top: 20px;
+            }
+            label {
+                display: block;
+                margin-bottom: 5px;
+            }
+            input[type="text"], textarea {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+            button {
+                padding: 10px 20px;
+                background-color: #007BFF;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Edit Quote</h1>
+        <form action="/quotes/edit-quote" method="POST">
+            <label for="quote_text">Quote Text:</label>
+            <textarea id="quote_text" name="quote_text" required>{{ text }}</textarea>
+            <br>
+            <label for="quote_author">Author:</label>
+            <input type="text" id="quote_author" name="quote_author" required value="{{ author }}">
+            <br>
+            <button type="submit">Save Changes</button>
+        </form>
+    </body>
+    <script>
+        // Handle form submission
+        const form = document.querySelector('form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            const quoteText = document.getElementById('quote_text').value;
+            const quoteAuthor = document.getElementById('quote_author').value;
+
+            try {
+                const response = await fetch('/quotes/edit-quote', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: quoteText, author: quoteAuthor })
+                });
+
+                if (response.ok) {
+                    alert('Quote updated successfully!');
+                    window.location.href = '/quotes'; // Redirect to the quotes page
+                } else {
+                    const errorData = await response.json();
+                    alert(`Error updating quote: ${errorData.message}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while updating the quote.');
+            }
+        });
+    </script>
+</html>

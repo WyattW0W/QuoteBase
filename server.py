@@ -60,6 +60,35 @@ def delete_quote():
         json.dump(quotes, f)
     return jsonify({"message": "Quote deleted successfully!"}), 200
 
+@app.route("/quotes/edit-quote-template", methods=["GET"])
+def edit_quote_template():
+    quote_text = request.args.get("text")
+    quote_author = request.args.get("author")
+    return render_template("edit-quote.html", text=quote_text, author=quote_author), 200
+
+@app.route("/quotes/edit-quote", methods=["POST"])
+def edit_quote():
+    global quotes
+
+    quote_data = request.get_json(silent=True) or {}
+    original_text = quote_data.get("original_text")
+    original_author = quote_data.get("original_author")
+    new_text = quote_data.get("new_text")
+    new_author = quote_data.get("new_author")
+
+    if not original_text or not original_author or not new_text or not new_author:
+        return jsonify({"error": "All fields are required"}), 400
+
+    for quote in quotes:
+        if quote.get("text") == original_text and quote.get("author") == original_author:
+            quote["text"] = new_text
+            quote["author"] = new_author
+            with open("quotes.json", "w") as f:
+                json.dump(quotes, f)
+            return jsonify({"message": "Quote updated successfully!"}), 200
+
+    return jsonify({"error": "Original quote not found"}), 404
+
 print("1. Script loaded successfully.")
 
 if __name__ == "__main__":
