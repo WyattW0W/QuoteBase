@@ -13,10 +13,12 @@ def index():
 
 @app.route("/quotes", methods=["GET"])
 def get_quotes():
+    print("Rendering quotes template...")
     return render_template("quotes.html", quotes=quotes), 200
 
 @app.route("/quotes/add-quote", methods=["POST"])
 def add_quote():
+    print("Adding new quote...")
     new_quote = request.get_json().get("text")
     new_author = request.get_json().get("author")
     if new_quote and new_author:
@@ -29,14 +31,17 @@ def add_quote():
 
 @app.route("/cat-and-mouse", methods=["GET"])
 def cat_and_mouse():
+    print("Rendering cat and mouse game template...")
     return render_template("cat_and_mouse.html"), 200
 
 @app.route("/delete-quote-template", methods=["GET"])
 def delete_quote_template():
+    print("Rendering delete quote template...")
     return render_template("delete-quote.html", quotes=quotes), 200
 
 @app.route("/quotes/delete-quote", methods=["POST"])
 def delete_quote():
+    print("Deleting quote...")
     global quotes
 
     quote_data = request.get_json(silent=True) or {}
@@ -62,12 +67,14 @@ def delete_quote():
 
 @app.route("/quotes/edit-quote-template", methods=["GET"])
 def edit_quote_template():
+    print("Rendering edit quote template...")
     quote_text = request.args.get("text")
     quote_author = request.args.get("author")
     return render_template("edit-quote.html", text=quote_text, author=quote_author), 200
 
 @app.route("/quotes/edit-quote", methods=["POST"])
 def edit_quote():
+    print("Editing quote...")
     global quotes
 
     quote_data = request.get_json(silent=True) or {}
